@@ -8,7 +8,23 @@ class Campaign < ApplicationRecord
 
   before_save :calculate_goal
 
-  def current_balance
+  def installments_paid
+    1.to_i
+  end
+
+  def installments_with_enough_money
+    (self.money_paid / self.course.price).floor
+  end
+
+  def installments_left
+    (self.count_months - self.installments_paid).ceil
+  end
+
+  def money_left
+    (self.calculate_goal - self.money_paid).to_f
+  end
+
+  def money_paid
     self.campaign_transactions.sum(:value).to_f
   end
 
@@ -16,9 +32,11 @@ class Campaign < ApplicationRecord
     self.campaign_transactions.create(value: value)
   end
 
-  private
-
   def calculate_goal
-    self.course.price * self.course.semesters * 6
+    self.course.price * self.count_months
+  end
+
+  def count_months
+    self.course.semesters * 6
   end
 end

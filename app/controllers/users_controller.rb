@@ -79,7 +79,7 @@ class UsersController < ApplicationController
               only: [:created_at, :value],
             },
           },
-          methods: [:current_balance],
+          methods: [:money_paid, :money_left, :installments_with_enough_money, :installments_paid, :installments_left],
         },
       },
     )
