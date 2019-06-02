@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  has_one :user_balance
   has_many :campaigns
+
+  validates :email, :name, :password, presence: true
 
   before_create :generate_slug
 

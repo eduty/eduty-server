@@ -1,4 +1,14 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
+  def create
+    user = User.new(user_params)
+
+    if user.save
+      head(:ok)
+    else
+      head(:bad_request)
+    end
+  end
+
   def auth
     email = params[:email]
     password = params[:password]
@@ -14,6 +24,10 @@ class UserController < ApplicationController
   end
 
   private
+
+  def user_params
+    params.require(:user).permit(:email, :password, :name, :cpf, :birth_date)
+  end
 
   def user_data
     @user.to_json(

@@ -4,13 +4,15 @@ Rails.application.routes.draw do
     get '/ping' => :pong
   end
 
-  controller :user do
+  controller :users do
     post '/auth' => :auth
   end
 
   controller :payment do
     post '/pay' => :pay
   end
+
+  resources :users, only: [:create]
 
   resources :institutions, only: [:index, :show] do
     resources :campuses, only: [:index]
