@@ -13,10 +13,12 @@ Rails.application.routes.draw do
   end
 
   resources :institutions, only: [:index, :show] do
-    resources :campuses, only: [:index] do
-      resources :courses, only: [:index]
-    end
+    resources :campuses, only: [:index]
   end
 
-  resources :campuses, :courses, only: [:show]
+  resources :campuses, only: [:show] do
+    resources :courses, only: [:index]
+  end
+
+  resources :courses, only: [:show]
 end
