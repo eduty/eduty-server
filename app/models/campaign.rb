@@ -12,8 +12,8 @@ class Campaign < ApplicationRecord
     1.to_i
   end
 
-  def installments_with_enough_money
-    (self.money_paid / self.course.price).floor
+  def percent_with_enough_money
+    ((self.money_paid / self.calculate_goal) * 100).to_f
   end
 
   def installments_left

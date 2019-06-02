@@ -46,7 +46,7 @@ class CampaignsController < ApplicationController
           only: [:id, :email, :name, :slug],
         },
       },
-      methods: [:money_paid, :money_left, :installments_with_enough_money, :installments_paid, :installments_left],
+      methods: [:money_paid, :money_left, :percent_with_enough_money, :installments_paid, :installments_left],
     )
   end
 end
