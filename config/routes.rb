@@ -11,4 +11,12 @@ Rails.application.routes.draw do
   controller :payment do
     post '/pay' => :pay
   end
+
+  resources :institutions, only: [:index, :show] do
+    resources :campuses, only: [:index] do
+      resources :courses, only: [:index]
+    end
+  end
+
+  resources :campuses, :courses, only: [:show]
 end
