@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    user = User.find(params[:id])
+    user = User.find_by_slug(params[:id])
 
     render json: user_data(user)
   end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :name, :cpf, :birth_date, :city, :state, :phone_number)
+    params.permit(:email, :password, :name, :cpf, :birth_date, :city, :state, :phone_number)
   end
 
   def user_data(data)
