@@ -50,7 +50,17 @@ class UsersController < ApplicationController
         campaigns: {
           include: {
             campaign_media: { only: [:url, :kind] },
-            campaign_transactions: { only: [:value, ] },
+            course: {
+              include: {
+                campus: { only: [:id, :name] },
+                institution: { only: [:id, :kind, :name] },
+              },
+              only: [:id, :name, :price, :semesters]
+            },
+            payments: {
+              methods: [:user_name],
+              only: [:value],
+            },
           },
           methods: [:current_balance],
         },
