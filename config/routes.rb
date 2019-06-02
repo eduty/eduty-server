@@ -7,4 +7,8 @@ Rails.application.routes.draw do
   controller :user do
     post '/auth' => :auth
   end
+
+  controller :payment do
+    post '/pay' => :pay
+  end
 end

@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20190602013411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "campaign_media", id: :bigint, default: -> { "nextval('campaign_medias_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "campaign_media", force: :cascade do |t|
     t.bigint "campaign_id"
     t.string "kind"
     t.string "url"
