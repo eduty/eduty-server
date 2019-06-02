@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   def index
-    courses = Course.where(campus_id: params[:campus_id])
+    courses = Course.all
 
     render json: courses
   end
