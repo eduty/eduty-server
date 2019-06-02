@@ -36,7 +36,9 @@ class UsersController < ApplicationController
         campaigns: {
           include: {
             campaign_media: { only: [:url, :kind] },
+            campaign_transactions: { only: [:value, ] },
           },
+          methods: [:current_balance],
         },
       },
     )
