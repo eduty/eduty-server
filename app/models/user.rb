@@ -1,11 +1,9 @@
 class User < ApplicationRecord
   has_many :campaigns
 
-  validates :email, :name, :password, presence: true
-
   before_create :generate_slug
 
   def generate_slug
-    self.slug = self.name.parameterize
+    self.slug = self.name.try(:parameterize) || self.email.try(:parameterize) || rand(41928794).to_s
   end
 end
