@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   controller :ping do
     get '/ping' => :pong
   end
+
+  controller :user do
+    post '/auth' => :auth
+  end
 end

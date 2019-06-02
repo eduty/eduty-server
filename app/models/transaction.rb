@@ -1,3 +1,3 @@
 class Transaction < ApplicationRecord
-  belongs_to :user_balance
+  belongs_to :funding
 end
