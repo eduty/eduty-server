@@ -3,13 +3,16 @@ class CampaignsController < ApplicationController
     campaign_params = {
       course_id: params[:course_id],
       description: params[:description],
-      goal: params[:goal],
       user_id: params[:user_id],
     }
 
     campaign = Campaign.new(campaign_params)
 
     if campaign.save
+      if params[:campaign_media].present?
+        campaign.campaign_media.create(url: params[:campaign_media], kind: 'video')
+      end
+
       head(:ok)
     else
       head(:bad_request)

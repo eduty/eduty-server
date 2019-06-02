@@ -1,6 +1,21 @@
 class UsersController < ApplicationController
   def create
-    user = User.new(user_params)
+    user = User.find_by_email(params[:email])
+
+    if user.present?
+      user.city = params[:city]
+      user.name = params[:name]
+      user.phone_number = params[:phone]
+    else
+      user = User.new(
+        email: params[:email],
+        city: params[:city],
+        state: params[:state],
+        name: params[:name],
+        phone_number: params[:phone],
+        password: params[:password],
+      )
+    end
 
     if user.save
       head(:ok)
@@ -18,7 +33,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    user = User.find_by_slug(params[:id])
+    user = User.find_by_slug(params[:slug])
+
+    if user.blank?
+      head(:not_found)
+      return
+    end
 
     render json: user_data(user)
   end
@@ -39,10 +59,6 @@ class UsersController < ApplicationController
 
   private
 
-  def user_params
-    params.permit(:email, :password, :name, :cpf, :birth_date, :city, :state, :phone_number)
-  end
-
   def user_data(data)
     data.to_json(
       except: [:password, :created_at, :updated_at],
@@ -59,7 +75,7 @@ class UsersController < ApplicationController
             },
             payments: {
               methods: [:user_name],
-              only: [:value],
+              only: [:created_at, :value],
             },
           },
           methods: [:current_balance],

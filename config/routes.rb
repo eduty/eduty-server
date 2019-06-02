@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   end
 
   controller :users do
+    get '/users/:slug' => :show
     post '/auth' => :auth
   end
 
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
     post '/pay' => :pay
   end
 
-  resources :users, only: [:create, :index, :show] do
+  resources :users, only: [:create, :index] do
     resources :campaigns, only: [:create]
   end
 
