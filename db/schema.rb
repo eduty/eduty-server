@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190601223903) do
+ActiveRecord::Schema.define(version: 20190602013411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "campaign_media", force: :cascade do |t|
+  create_table "campaign_media", id: :bigint, default: -> { "nextval('campaign_medias_id_seq'::regclass)" }, force: :cascade do |t|
     t.bigint "campaign_id"
     t.string "kind"
     t.string "url"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20190601223903) do
     t.bigint "user_id"
     t.bigint "course_id"
     t.string "description"
+    t.decimal "goal"
     t.index ["course_id"], name: "index_campaigns_on_course_id"
     t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
@@ -49,14 +50,6 @@ ActiveRecord::Schema.define(version: 20190601223903) do
     t.index ["institution_id"], name: "index_courses_on_institution_id"
   end
 
-  create_table "fundings", force: :cascade do |t|
-    t.decimal "goal"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_fundings_on_user_id"
-  end
-
   create_table "institutions", force: :cascade do |t|
     t.string "name"
     t.string "kind"
@@ -69,17 +62,17 @@ ActiveRecord::Schema.define(version: 20190601223903) do
     t.bigint "campaign_id"
     t.decimal "value"
     t.string "method"
+    t.string "kind"
     t.index ["campaign_id"], name: "index_payments_on_campaign_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.bigint "funding_id"
     t.decimal "value"
     t.string "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["funding_id"], name: "index_transactions_on_funding_id"
+    t.integer "campaign_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,4 +87,5 @@ ActiveRecord::Schema.define(version: 20190601223903) do
   end
 
   add_foreign_key "courses", "campuses"
+  add_foreign_key "transactions", "campaigns"
 end
