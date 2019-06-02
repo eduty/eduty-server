@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190601211938) do
+ActiveRecord::Schema.define(version: 20190601223903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "campaign_media", force: :cascade do |t|
+    t.bigint "campaign_id"
+    t.string "kind"
+    t.string "url"
+    t.index ["campaign_id"], name: "index_campaign_medias_on_campaign_id"
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.string "description"
+    t.index ["course_id"], name: "index_campaigns_on_course_id"
+    t.index ["user_id"], name: "index_campaigns_on_user_id"
+  end
 
   create_table "campuses", force: :cascade do |t|
     t.bigint "institution_id"
@@ -30,6 +45,7 @@ ActiveRecord::Schema.define(version: 20190601211938) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "campus_id"
+    t.integer "semesters"
     t.index ["institution_id"], name: "index_courses_on_institution_id"
   end
 
@@ -48,6 +64,15 @@ ActiveRecord::Schema.define(version: 20190601211938) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "campaign_id"
+    t.decimal "value"
+    t.string "method"
+    t.index ["campaign_id"], name: "index_payments_on_campaign_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.bigint "funding_id"
     t.decimal "value"
@@ -64,6 +89,8 @@ ActiveRecord::Schema.define(version: 20190601211938) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cpf"
+    t.datetime "birth_date"
   end
 
   add_foreign_key "courses", "campuses"
