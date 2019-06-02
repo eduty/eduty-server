@@ -18,7 +18,7 @@ class CoursesController < ApplicationController
       only: [:id, :kind, :name, :level, :shift, :semesters, :price],
       include: {
         campus: { only: [:id, :name] },
-        institution: { only: [:id, :kind, :name] },
+        institution: { only: [:id, :kind, :name, :logo_url] },
       },
     )
   end
