@@ -16,6 +16,15 @@ class UserController < ApplicationController
   private
 
   def user_data
-    @user.to_json(except: [:password, :created_at, :updated_at], include: [:campaigns, :campaign_media])
+    @user.to_json(
+      except: [:password, :created_at, :updated_at],
+      include: {
+        campaigns: {
+          include: {
+            campaign_media: { only: [:url, :kind] },
+          },
+        },
+      },
+    )
   end
 end
