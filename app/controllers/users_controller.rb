@@ -9,14 +9,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+    users = User.all
+
+    render json: users.to_json(
+      only: [:id, :name, :slug]
+    )
+  end
+
+  def show
+    user = User.find(params[:id])
+
+    render json: user_data(user)
+  end
+
   def auth
     email = params[:email]
     password = params[:password]
 
-    @user = User.find_by_email(email)
+    user = User.find_by_email(email)
 
-    if @user.present? && @user.password == password
-      render json: user_data
+    if user.present? && user.password == password
+      render json: user_data(user)
       return
     end
 
@@ -29,8 +43,8 @@ class UsersController < ApplicationController
     params.require(:user).permit(:email, :password, :name, :cpf, :birth_date)
   end
 
-  def user_data
-    @user.to_json(
+  def user_data(data)
+    data.to_json(
       except: [:password, :created_at, :updated_at],
       include: {
         campaigns: {

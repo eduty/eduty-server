@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     post '/pay' => :pay
   end
 
-  resources :users, only: [:create]
+  resources :users, only: [:create, :index, :show] do
+    resources :campaigns, only: [:create]
+  end
+
+  resources :campaigns, only: [:index, :show]
 
   resources :institutions, only: [:index, :show] do
     resources :campuses, only: [:index]
