@@ -18,7 +18,8 @@ class UsersController < ApplicationController
     end
 
     if user.save
-      head(:ok)
+      render json: user_data(user)
+      return
     else
       head(:bad_request)
     end
