@@ -22,9 +22,7 @@ Rails.application.routes.draw do
     resources :campuses, only: [:index]
   end
 
-  resources :campuses, only: [:show] do
-    resources :courses, only: [:index]
-  end
+  resources :campuses, only: [:show]
 
-  resources :courses, only: [:show]
+  resources :courses, only: [:index, :show]
 end
